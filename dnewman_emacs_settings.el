@@ -361,14 +361,13 @@ Version 2019-11-05"
 
 ;; ---------------------------
 ;; Bell (no annoying beeps)
-(setq visible-bell nil
-      ring-bell-function 'double-flash-mode-line)
-(defun double-flash-mode-line ()
-  (let ((flash-sec (/ 1.0 20)))
-    (invert-face 'mode-line)
-    (run-with-timer flash-sec nil #'invert-face 'mode-line)
-    (run-with-timer (* 2 flash-sec) nil #'invert-face 'mode-line)
-    (run-with-timer (* 3 flash-sec) nil #'invert-face 'mode-line)))
+(setq ring-bell-function
+      (lambda ()
+        (let ((orig-fg (face-foreground 'mode-line)))
+          (set-face-foreground 'mode-line "#F2804F")
+          (run-with-idle-timer 0.1 nil
+                               (lambda (fg) (set-face-foreground 'mode-line fg))
+                               orig-fg))))
 
 ;; HH====================================================================
 
