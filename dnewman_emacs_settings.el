@@ -40,7 +40,7 @@
 ;; for isearch-forward, make these equivalent: space newline tab hyphen underscore
 (setq search-whitespace-regexp "[-_ \t\n]+")
 
-(defun xah-toggle-search-whitespace ()
+(defun dnewman-toggle-search-whitespace ()
   "Set `search-whitespace-regexp' to nil or includes hyphen lowline tab newline.
 Explanation: When in isearch (M-x `isearch-forward'), space key can also stand for other chars such as hyphen lowline tab newline. It depend on a regex. It's convenient. But sometimes you want literal. This command makes it easy to toggle.
 Emacs Isearch Space Toggle
@@ -114,7 +114,7 @@ Version 2019-02-22"
 ;; (electric-pair-mode 1)
 
 (when (fboundp 'eww)
-  (defun xah-rename-eww-buffer ()
+  (defun dnewman-rename-eww-buffer ()
     "Rename `eww-mode' buffer so sites open in new page.
 URL `http://ergoemacs.org/emacs/emacs_eww_web_browser.html'
 Version 2017-11-10"
@@ -124,7 +124,7 @@ Version 2017-11-10"
             (rename-buffer (concat "eww " $title ) t)
           (rename-buffer "eww" t)))))
 
-  (add-hook 'eww-after-render-hook 'xah-rename-eww-buffer))
+  (add-hook 'eww-after-render-hook 'dnewman-rename-eww-buffer))
 
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
@@ -157,20 +157,20 @@ Version 2017-11-10"
 
 ;; (progn
 ;;   ;; use variable-width font for some modes
-;;   (defun xah-set-proportial-font ()
+;;   (defun dnewman-set-proportial-font ()
 ;;     "Set current buffer to use variable-width font."
 ;;     (variable-pitch-mode 1)
 ;;     ;; (text-scale-increase 1 )
 ;;     )
-;;   (add-hook 'xah-elisp-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'xah-html-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'xah-css-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'xah-js-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'html-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'nxml-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'xah-elisp-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'js-mode-hook 'xah-set-proportial-font)
-;;   (add-hook 'css-mode-hook 'xah-set-proportial-font))
+;;   (add-hook 'dnewman-elisp-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'dnewman-html-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'dnewman-css-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'dnewman-js-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'html-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'nxml-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'dnewman-elisp-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'js-mode-hook 'dnewman-set-proportial-font)
+;;   (add-hook 'css-mode-hook 'dnewman-set-proportial-font))
 
 (progn
   (setq enable-recursive-minibuffers t)
@@ -331,19 +331,19 @@ Version 2017-11-10"
 (defalias 'ssm 'shell-script-mode)
 (defalias 'om 'org-mode)
 
-(defalias 'xnp 'xah-new-page)
+(defalias 'xnp 'dnewman-new-page)
 
 (when (fboundp 'magit-status)
   (defalias 'ms 'magit-status))
 
-(when (fboundp 'xah-find-count)
-  (defalias 'xfc 'xah-find-count))
+(when (fboundp 'dnewman-find-count)
+  (defalias 'xfc 'dnewman-find-count))
 
-(defalias 'xcm 'xah-css-mode)
-(defalias 'xem 'xah-elisp-mode)
-(defalias 'xhm 'xah-html-mode)
-(defalias 'xjm 'xah-js-mode)
-(defalias 'xcm 'xah-clojure-mode)
+(defalias 'xcm 'dnewman-css-mode)
+(defalias 'xem 'dnewman-elisp-mode)
+(defalias 'xhm 'dnewman-html-mode)
+(defalias 'xjm 'dnewman-js-mode)
+(defalias 'xcm 'dnewman-clojure-mode)
 
 ;; no want tpu-edt
 (defalias 'tpu-edt 'forward-char)
@@ -351,13 +351,24 @@ Version 2017-11-10"
 
 ;;; --------------------
 
-(defun xah-save-all-unsaved ()
+(defun dnewman-save-all-unsaved ()
   "Save all unsaved files. no ask.
 Version 2019-11-05"
   (interactive)
   (save-some-buffers t ))
 
-(add-hook 'focus-out-hook 'xah-save-all-unsaved)
+(add-hook 'focus-out-hook 'dnewman-save-all-unsaved)
+
+;; ---------------------------
+;; Bell (no annoying beeps)
+(setq visible-bell nil
+      ring-bell-function 'double-flash-mode-line)
+(defun double-flash-mode-line ()
+  (let ((flash-sec (/ 1.0 20)))
+    (invert-face 'mode-line)
+    (run-with-timer flash-sec nil #'invert-face 'mode-line)
+    (run-with-timer (* 2 flash-sec) nil #'invert-face 'mode-line)
+    (run-with-timer (* 3 flash-sec) nil #'invert-face 'mode-line)))
 
 ;; HH====================================================================
 
