@@ -32,14 +32,6 @@ To solve this problem, when your code only knows the relative path of another fi
 
 (load (dnewman-get-fullpath "dnewman_emacs_settings"))
 
-;; --------------------------------------------------
-;; load packages
-
-;;(add-to-list 'load-path "~/git/dnewman-fly-keys/")
-;;(require 'dnewman-fly-keys)
-
-;;(add-to-list 'load-path "~/git/dnewman-find/")
-;;(require 'dnewman-find)
 
 ;; more here
 
